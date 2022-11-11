@@ -1,0 +1,15 @@
+1) create github repository named midtermq0
+2) do allthe tutorails in https://docs.edgeimpulse.com/docs/development-platforms/using-your-mobile-phone
+​Building a continuous motion recognition system.
+
+​Responding to your voice​
+
+​Recognize sounds from audio​
+
+​Adding sight to your sensors​
+
+​Object detection​
+
+​Counting objects using FOMO​
+3) upload screenshots of tutorials in github.
+4) uplaod your github repo's link to yulearn
