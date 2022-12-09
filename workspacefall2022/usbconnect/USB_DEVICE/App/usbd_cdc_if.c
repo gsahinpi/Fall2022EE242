@@ -22,6 +22,8 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
+extern uint8_t externbuffer[64];
+extern  uint16_t flag;
 
 /* USER CODE END INCLUDE */
 
@@ -261,9 +263,15 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-strcpy(Buf,Buffer);
+
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  memset (externbuffer, '\0', 64);  // clear the buffer
+    //uint8_t len = (uint8_t)*Len;
+    memcpy(externbuffer, Buf, *Len);  // copy the data to the buffer
+    memset(Buf, '\0', *Len);   // clear the Buf also
+     flag=1;
+
   return (USBD_OK);
   /* USER CODE END 6 */
 }

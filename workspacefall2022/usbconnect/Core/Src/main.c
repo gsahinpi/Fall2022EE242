@@ -24,7 +24,9 @@
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
 #include "string.h"
-extern  uint8_t* Buffer;
+  uint8_t externbuffer[64];
+  uint16_t flag=0;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,6 +44,7 @@ extern  uint8_t* Buffer;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN PV */
 
@@ -50,8 +53,9 @@ extern  uint8_t* Buffer;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
-
+int inerruptcount=0;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -88,6 +92,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   CDC_Transmit_FS("hello", strlen("hello"));
   /* USER CODE END 2 */
@@ -96,10 +101,35 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  //CDC_Transmit_FS("Don't set aslı's pin", strlen("Don't set aslı's pin"));
+	 // HAL_Delay(100);
     /* USER CODE END WHILE */
-	  CDC_Transmit_FS("Don+set aslı's pin to 0 \n", strlen("Don+set aslı's pin to 0 \n"));
-	  HAL_Delay(500);
+
     /* USER CODE BEGIN 3 */
+	  if (flag==1)
+	  {
+		  flag=0;
+		  if (!strcmp(externbuffer,"orangeon"))
+		  {
+			HAL_GPIO_WritePin(orangeled_GPIO_Port, orangeled_Pin, 1   );
+
+		  }
+		  if (!strcmp(externbuffer,"orangeof"))
+		  		  {
+		  			HAL_GPIO_WritePin(orangeled_GPIO_Port, orangeled_Pin, 0  );
+
+		  		  }
+		  if (!strcmp(externbuffer,"redof"))
+		 		  		  {
+		 		  			HAL_GPIO_WritePin(redled_GPIO_Port, redled_Pin, 0  );
+
+		 		  		  }
+		  if (!strcmp(externbuffer,"redon"))
+		  		 		  		  {
+		  		 		  			HAL_GPIO_WritePin(redled_GPIO_Port, redled_Pin, 1  );
+
+		  		 		  		  }
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -150,21 +180,104 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief TIM6 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM6_Init(void)
+{
+
+  /* USER CODE BEGIN TIM6_Init 0 */
+
+  /* USER CODE END TIM6_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM6_Init 1 */
+
+  /* USER CODE END TIM6_Init 1 */
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 0;
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim6.Init.Period = 65535;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM6_Init 2 */
+
+  /* USER CODE END TIM6_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, orangeled_Pin|redled_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PA0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : orangeled_Pin redled_Pin */
+  GPIO_InitStruct.Pin = orangeled_Pin|redled_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	inerruptcount ++;
+ if (GPIO_Pin==GPIO_PIN_0)
+ {
+	 if (HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0 )== 1)
+	 {
+		HAL_TIM_Base_Start(&htim6);
+
+	 }// button pres
+	 if (HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0 )== 0)
+	 	 {
+		 HAL_TIM_Base_Stop(&htim6);
+
+		 int count= TIM6->CNT;
+
+
+		 CDC_Transmit_FS(count, strlen(count));
+
+
+	 	 }// button up
+ }//if pin 0
+}
 
 /* USER CODE END 4 */
 

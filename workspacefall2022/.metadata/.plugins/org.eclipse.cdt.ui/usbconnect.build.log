@@ -1,10 +1,10 @@
-16:53:50 **** Incremental Build of configuration Debug for project usbconnect ****
+15:51:54 **** Incremental Build of configuration Debug for project usbconnect ****
 make -j16 all 
 arm-none-eabi-size   usbconnect.elf 
    text	   data	    bss	    dec	    hex	filename
-  28504	    260	   8756	  37520	   9290	usbconnect.elf
+  30336	    260	   8892	  39488	   9a40	usbconnect.elf
 Finished building: default.size.stdout
  
 
-16:53:51 Build Finished. 0 errors, 0 warnings. (took 310ms)
+15:51:54 Build Finished. 0 errors, 0 warnings. (took 412ms)
 
