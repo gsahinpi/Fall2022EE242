@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
 #include "string.h"
+ uint8_t charbuff[64];
   uint8_t externbuffer[64];
   uint16_t flag=0;
 
@@ -262,6 +263,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
  {
 	 if (HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0 )== 1)
 	 {
+		 TIM6->CNT=0;
 		HAL_TIM_Base_Start(&htim6);
 
 	 }// button pres
@@ -271,8 +273,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 		 int count= TIM6->CNT;
 
+        snprintf(charbuff,sizeof(charbuff),"count=%d\n",count);
+		CDC_Transmit_FS(charbuff, strlen(charbuff));
 
-		 CDC_Transmit_FS(count, strlen(count));
 
 
 	 	 }// button up

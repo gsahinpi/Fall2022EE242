@@ -1,0 +1,9 @@
+../Core/Src/MY_LIS3DSH.cpp:21:6:void LIS3DSH_WriteIO(uint8_t, uint8_t*, uint8_t)	24	static
+../Core/Src/MY_LIS3DSH.cpp:34:6:void LIS3DSH_ReadIO(uint8_t, uint8_t*, uint8_t)	24	static
+../Core/Src/MY_LIS3DSH.cpp:53:6:void LIS3DSH_Init(SPI_HandleTypeDef*, LIS3DSH_InitTypeDef*)	24	static
+../Core/Src/MY_LIS3DSH.cpp:107:17:LIS3DSH_DataRaw LIS3DSH_GetDataRaw()	24	static
+../Core/Src/MY_LIS3DSH.cpp:127:20:LIS3DSH_DataScaled LIS3DSH_GetDataScaled()	56	static
+../Core/Src/MY_LIS3DSH.cpp:140:6:bool LIS3DSH_PollDRDY(uint32_t)	24	static
+../Core/Src/MY_LIS3DSH.cpp:160:6:void LIS3DSH_X_calibrate(float, float)	16	static
+../Core/Src/MY_LIS3DSH.cpp:166:6:void LIS3DSH_Y_calibrate(float, float)	16	static
+../Core/Src/MY_LIS3DSH.cpp:172:6:void LIS3DSH_Z_calibrate(float, float)	16	static
