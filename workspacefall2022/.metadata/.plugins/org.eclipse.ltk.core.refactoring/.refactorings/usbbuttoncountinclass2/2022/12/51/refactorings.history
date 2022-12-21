@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;usbbuttoncountinclass2/usbbuttoncountinclass.ioc&apos; to &apos;usbbuttoncountinclass2.ioc&apos;" description="Rename resource &apos;usbbuttoncountinclass.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="usbbuttoncountinclass.ioc" name="usbbuttoncountinclass2.ioc" stamp="1671314607835" updateReferences="true"/>
+</session>

@@ -234,30 +234,36 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	{
 		switch (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
 		{case 0:
+			HAL_TIM_Base_Start_IT(&htim2);
 			HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 			state=bup;
 			buttonupcount++;
 
-			HAL_TIM_Base_Start_IT(&htim2);
+
 			break;
 
 		case 1:
+
 
 			state=bdown;
 			buttondowncount++;
 
 
+
+
 			break;
 
 		}
+		//HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 
-	}
+	}// if button
 }//exti callback
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	 HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
 	 state=idle;
 	 HAL_TIM_Base_Stop_IT(&htim2);
+	 HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 
 }//period callback

@@ -1756,7 +1756,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
  8001206:	2140      	movs	r1, #64	; 0x40
  8001208:	480c      	ldr	r0, [pc, #48]	; (800123c <HAL_GPIO_EXTI_Callback+0x88>)
  800120a:	f007 fc13 	bl	8008a34 <sniprintf>
-		 CDC_Transmit_FS(charbuff, strlen(charbuff));
+		CDC_Transmit_FS(charbuff, strlen(charbuff));
  800120e:	480b      	ldr	r0, [pc, #44]	; (800123c <HAL_GPIO_EXTI_Callback+0x88>)
  8001210:	f7fe ffe8 	bl	80001e4 <strlen>
  8001214:	4603      	mov	r3, r0
