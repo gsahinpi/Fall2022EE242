@@ -1,0 +1,10 @@
+17:15:11 **** Incremental Build of configuration Debug for project hwsolution ****
+make -j16 all 
+arm-none-eabi-size   hwsolution.elf 
+   text	   data	    bss	    dec	    hex	filename
+  48744	    740	   9220	  58704	   e550	hwsolution.elf
+Finished building: default.size.stdout
+ 
+
+17:15:12 Build Finished. 0 errors, 0 warnings. (took 378ms)
+

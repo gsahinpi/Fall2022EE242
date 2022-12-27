@@ -1,0 +1,21 @@
+23:02:50 **** Incremental Build of configuration Debug for project adc ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:92:12: warning: unused variable 'dutyCycle' [-Wunused-variable]
+   92 |   uint16_t dutyCycle = HAL_TIM_ReadCapturedValue(&htim1, TIM_CHANNEL_1); //reads CCR - 20
+      |            ^~~~~~~~~
+arm-none-eabi-gcc -o "adc.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\gsahinpi\Documents\github\Fall2022EE242\workspacefall2022\adc\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="adc.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: adc.elf
+ 
+arm-none-eabi-size   adc.elf 
+arm-none-eabi-objdump -h -S  adc.elf  > "adc.list"
+   text	   data	    bss	    dec	    hex	filename
+  10100	     20	   1644	  11764	   2df4	adc.elf
+Finished building: default.size.stdout
+ 
+Finished building: adc.list
+ 
+
+23:02:51 Build Finished. 0 errors, 1 warnings. (took 822ms)
+
